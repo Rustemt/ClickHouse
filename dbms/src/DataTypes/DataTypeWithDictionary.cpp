@@ -132,6 +132,8 @@ void DataTypeWithDictionary::deserializeBinaryBulkWithMultipleStreams(
     ColumnWithDictionary & column_with_dictionary = typeid_cast<ColumnWithDictionary &>(column);
 
     auto dict_state = typeid_cast<DeserializeBinaryBulkStateWithDictionary *>(state.get());
+    if (dict_state == nullptr)
+        throw Exception("Invalid DeserializeBinaryBulkState.", ErrorCodes::LOGICAL_ERROR);
 
     auto readIndexes = [&](ReadBuffer * stream, const ColumnPtr & index, size_t num_rows)
     {
