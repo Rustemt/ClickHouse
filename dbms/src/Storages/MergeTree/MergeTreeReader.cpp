@@ -385,6 +385,9 @@ void MergeTreeReader::readData(
     if (!continue_reading)
         deserialize_binary_bulk_state_map[name] = type.createDeserializeBinaryBulkState();
 
+    if (deserialize_binary_bulk_state_map.count(name) == 0)
+        throw Exception("DeserializeBinaryBulkState wasn't created for column " + name, ErrorCodes::LOGICAL_ERROR);
+
     double & avg_value_size_hint = avg_value_size_hints[name];
     auto & deserialize_state = deserialize_binary_bulk_state_map[name];
     type.deserializeBinaryBulkWithMultipleStreams(column, stream_getter, max_rows_to_read,
