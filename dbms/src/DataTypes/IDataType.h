@@ -120,7 +120,10 @@ public:
             serializeBinaryBulk(column, *stream, offset, limit);
     }
 
-    struct DeserializeBinaryBulkState {};
+    struct DeserializeBinaryBulkState
+    {
+        virtual ~DeserializeBinaryBulkState() = default;
+    };
     using DeserializeBinaryBulkStatePtr = std::shared_ptr<DeserializeBinaryBulkState>;
 
     virtual DeserializeBinaryBulkStatePtr createDeserializeBinaryBulkState() const { return nullptr; }
